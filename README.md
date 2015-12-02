@@ -35,7 +35,7 @@
             public void handle(String time) {
                 Toast.makeText(getApplicationContext(), time, Toast.LENGTH_LONG).show();
             }
-        }, "2015-11-30 17:34", "2015-12-1 17:34","9:00","17:00");
+        }, "2015-10-30 10:34", "2015-12-1 17:34","9:00","17:00");
 
 使用：
 ><pre><code>timeSelector.show();</code></pre>
