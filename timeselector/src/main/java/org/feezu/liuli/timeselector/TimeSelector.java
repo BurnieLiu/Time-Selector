@@ -94,17 +94,13 @@ public class TimeSelector {
             Toast.makeText(context, "起始时间应小于结束时间", Toast.LENGTH_LONG).show();
             return;
         }
-        try {
-            excuteWorkTime();
-            initParameter();
-            initTimer();
-            addListener();
-            seletorDialog.show();
-        } catch (Exception e) {
-            seletorDialog.dismiss();
-            e.printStackTrace();
-            Toast.makeText(context, "出现异常,请确保参数正确，如有问题请联系作者：QQ:3029689773", Toast.LENGTH_LONG).show();
-        }
+
+        if (!excuteWorkTime()) return;
+        initParameter();
+        initTimer();
+        addListener();
+        seletorDialog.show();
+
 
     }
 
@@ -238,7 +234,8 @@ public class TimeSelector {
 
     }
 
-    private void excuteWorkTime() {
+    private boolean excuteWorkTime() {
+        boolean res = true;
         if (!TextUtil.isEmpty(workStart_str) && !TextUtil.isEmpty(workEnd_str)) {
             String[] start = workStart_str.split(":");
             String[] end = workEnd_str.split(":");
@@ -254,11 +251,37 @@ public class TimeSelector {
             workStartCalendar.set(Calendar.MINUTE, minute_workStart);
             workEndCalendar.set(Calendar.HOUR_OF_DAY, hour_workEnd);
             workEndCalendar.set(Calendar.MINUTE, minute_workEnd);
+
+
+            Calendar startTime = Calendar.getInstance();
+            Calendar endTime = Calendar.getInstance();
+            Calendar startWorkTime = Calendar.getInstance();
+            Calendar endWorkTime = Calendar.getInstance();
+
+            startTime.set(Calendar.HOUR_OF_DAY, startCalendar.get(Calendar.HOUR_OF_DAY));
+            startTime.set(Calendar.MINUTE, startCalendar.get(Calendar.MINUTE));
+            endTime.set(Calendar.HOUR_OF_DAY, endCalendar.get(Calendar.HOUR_OF_DAY));
+            endTime.set(Calendar.MINUTE, endCalendar.get(Calendar.MINUTE));
+
+            startWorkTime.set(Calendar.HOUR_OF_DAY, workStartCalendar.get(Calendar.HOUR_OF_DAY));
+            startWorkTime.set(Calendar.MINUTE, workStartCalendar.get(Calendar.MINUTE));
+            endWorkTime.set(Calendar.HOUR_OF_DAY, workEndCalendar.get(Calendar.HOUR_OF_DAY));
+            endWorkTime.set(Calendar.MINUTE, workEndCalendar.get(Calendar.MINUTE));
+
+
+            if (startTime.getTime().getTime() == endTime.getTime().getTime() || (startWorkTime.getTime().getTime() < startTime.getTime().getTime() && endWorkTime.getTime().getTime() < startTime.getTime().getTime())) {
+                Toast.makeText(context, "时间参数错误", Toast.LENGTH_LONG).show();
+                return false;
+            }
             startCalendar.setTime(startCalendar.getTime().getTime() < workStartCalendar.getTime().getTime() ? workStartCalendar.getTime() : startCalendar.getTime());
             endCalendar.setTime(endCalendar.getTime().getTime() > workEndCalendar.getTime().getTime() ? workEndCalendar.getTime() : endCalendar.getTime());
             MINHOUR = workStartCalendar.get(Calendar.HOUR_OF_DAY);
             MAXHOUR = workEndCalendar.get(Calendar.HOUR_OF_DAY);
+
         }
+        return res;
+
+
     }
 
     private String fomatTimeUnit(int unit) {
@@ -285,7 +308,7 @@ public class TimeSelector {
             public void onSelect(String text) {
                 selectedCalender.set(Calendar.YEAR, Integer.parseInt(text));
                 monthChange();
-                excuteScroll();
+
 
             }
         });
@@ -294,7 +317,7 @@ public class TimeSelector {
             public void onSelect(String text) {
                 selectedCalender.set(Calendar.MONTH, Integer.parseInt(text) - 1);
                 dayChange();
-                excuteScroll();
+
 
             }
         });
@@ -303,7 +326,6 @@ public class TimeSelector {
             public void onSelect(String text) {
                 selectedCalender.set(Calendar.DAY_OF_MONTH, Integer.parseInt(text));
                 hourChange();
-                excuteScroll();
 
             }
         });
@@ -312,7 +334,7 @@ public class TimeSelector {
             public void onSelect(String text) {
                 selectedCalender.set(Calendar.HOUR_OF_DAY, Integer.parseInt(text));
                 minuteChange();
-                excuteScroll();
+
 
             }
         });
@@ -320,7 +342,7 @@ public class TimeSelector {
             @Override
             public void onSelect(String text) {
                 selectedCalender.set(Calendar.MINUTE, Integer.parseInt(text));
-                excuteScroll();
+
 
             }
         });
@@ -473,6 +495,8 @@ public class TimeSelector {
         minute_pv.setData(minute);
         minute_pv.setSelected(0);
         excuteAnimator(ANIMATORDELAY, minute_pv);
+        excuteScroll();
+
 
     }
 
@@ -489,7 +513,7 @@ public class TimeSelector {
     /**
      * 设置选取时间文本 默认"选择"
      */
-    public void setNextBtTip(String str){
+    public void setNextBtTip(String str) {
         tv_select.setText(str);
     }
 }

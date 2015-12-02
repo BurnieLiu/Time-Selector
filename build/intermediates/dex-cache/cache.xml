@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/android_project/Time-Selector/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="/android_project/Time-Selector/app/build/intermediates/pre-dexed/debug/classes-f641b93b6e7c52c8ac1577b6c0ed90ac5afd01e1.jar" />
+    </item>
+    <item
+        jar="/android_project/Time-Selector/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/android_project/Time-Selector/app/build/intermediates/pre-dexed/debug/classes-c872f873ff84d6ea6f6b304e5a5ad7b27ae85336.jar" />
+    </item>
+    <item
+        jar="/Users/fluency/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="/android_project/Time-Selector/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1-540bb0f38e27cf03d6a8baf519452981e1bfcaeb.jar" />
+    </item>
+    <item
+        jar="/android_project/Time-Selector/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/android_project/Time-Selector/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1-16ab8de3aa5d3640c7cdfb90433a401ab9893774.jar" />
+    </item>
+    <item
+        jar="/android_project/Time-Selector/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="/android_project/Time-Selector/app/build/intermediates/pre-dexed/debug/classes-c94f327136d2648012061c1fb3b0866a071ab528.jar" />
+    </item>
+    <item
+        jar="/android_project/Time-Selector/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
+        <dex dex="/android_project/Time-Selector/app/build/intermediates/pre-dexed/debug/classes-42181cd5b4d7c0e96dc773230a684c8532986d1f.jar" />
+    </item>
+    <item
+        jar="/android_project/Time-Selector/app/build/intermediates/exploded-aar/org.feezu.liuli.timeselector/timeselector/1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="acbf9bd3612cc5b5113c449f5ca154987d973c49">
+        <dex dex="/android_project/Time-Selector/app/build/intermediates/pre-dexed/debug/classes-de426617fc304ac51af918d5d26b0375a6cc20dc.jar" />
+    </item>
+
+</items>

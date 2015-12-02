@@ -1,17 +1,17 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
-version = "1.0"
+version = "1.0.2"
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         minSdkVersion 11
-        targetSdkVersion 23
-        versionCode 2
-        versionName "1.0"
+        targetSdkVersion 22
+        versionCode 3
+        versionName "1.0.2"
     }
     buildTypes {
         release {
@@ -25,7 +25,7 @@ android {
 def siteUrl = 'https://github.com/mrfluency/Time-Selector'
 def gitUrl = 'https://github.com/mrfluency/Time-Selector.git'
 
-group = "org.feezu.liuli.timeselector"
+group = "com.feezu.liuli"
 
 install {
     repositories.mavenInstaller {
@@ -33,7 +33,7 @@ install {
         pom {
             project {
                 packaging 'aar'
-                name 'TimeSelector'
+                name 'Time-Selector'
                 url siteUrl
                 licenses {
                     license {
@@ -87,7 +87,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "TimeSelector"
+        name = "Time-Selector"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
@@ -100,5 +100,5 @@ bintray {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:22.1.1'
 }
