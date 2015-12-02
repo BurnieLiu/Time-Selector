@@ -11,7 +11,7 @@
 
 
 使用：
->在 gradle中加入：
+>Android Studio中直接在 gradle中加入：
 <pre><code>compile 'com.feezu.liuli:timeselector:1.0.0'</code></pre>
 
 构造1：
