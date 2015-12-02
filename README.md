@@ -12,7 +12,7 @@
 
 使用：
 >Android Studio中直接在 gradle中加入：
-<pre><code>compile 'com.feezu.liuli:timeselector:1.0.0'</code></pre>
+<pre><code>compile 'com.feezu.liuli:timeselector:1.0.0+'</code></pre>
 
 构造1：
 ><pre><code>TimeSelector(Context context, ResultHandler resultHandler, String startDate, String endDate)</code></pre>
