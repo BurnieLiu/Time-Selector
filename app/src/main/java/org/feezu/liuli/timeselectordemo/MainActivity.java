@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, "2015-10-27 09:33", "2016-11-29 21:54");
 
-
+        timeSelector.setScrollUnit(TimeSelector.SCROLLTYPE.HOUR, TimeSelector.SCROLLTYPE.MINUTE);
     }
 
     public void show(View v) {

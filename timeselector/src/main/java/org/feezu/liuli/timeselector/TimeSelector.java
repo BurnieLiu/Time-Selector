@@ -11,8 +11,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import org.feezu.liuli.timeselector.R;
 import org.feezu.liuli.timeselector.Utils.DateUtil;
 import org.feezu.liuli.timeselector.Utils.ScreenUtil;
 import org.feezu.liuli.timeselector.Utils.TextUtil;
@@ -29,6 +27,22 @@ public class TimeSelector {
         void handle(String time);
     }
 
+    public enum SCROLLTYPE {
+        YEAR(1),
+        MONTH(2),
+        DAY(4),
+        HOUR(8),
+        MINUTE(16);
+
+        private SCROLLTYPE(int value) {
+            this.value = value;
+        }
+
+        public int value;
+
+    }
+
+    private int scrollUnits = SCROLLTYPE.YEAR.value + SCROLLTYPE.MONTH.value + SCROLLTYPE.DAY.value + SCROLLTYPE.HOUR.value + SCROLLTYPE.MINUTE.value;
     private ResultHandler handler;
     private Context context;
     private final String FORMAT_STR = "yyyy-MM-dd HH:mm";
@@ -364,11 +378,11 @@ public class TimeSelector {
     }
 
     private void excuteScroll() {
-        year_pv.setCanScroll(year.size() > 1);
-        month_pv.setCanScroll(month.size() > 1);
-        day_pv.setCanScroll(day.size() > 1);
-        hour_pv.setCanScroll(hour.size() > 1);
-        minute_pv.setCanScroll(minute.size() > 1);
+        year_pv.setCanScroll(year.size() > 1 && (scrollUnits & SCROLLTYPE.YEAR.value) == SCROLLTYPE.YEAR.value);
+        month_pv.setCanScroll(month.size() > 1 && (scrollUnits & SCROLLTYPE.MONTH.value) == SCROLLTYPE.MONTH.value);
+        day_pv.setCanScroll(day.size() > 1 && (scrollUnits & SCROLLTYPE.DAY.value) == SCROLLTYPE.DAY.value);
+        hour_pv.setCanScroll(hour.size() > 1 && (scrollUnits & SCROLLTYPE.HOUR.value) == SCROLLTYPE.HOUR.value);
+        minute_pv.setCanScroll(minute.size() > 1 && (scrollUnits & SCROLLTYPE.MINUTE.value) == SCROLLTYPE.MINUTE.value);
     }
 
     private void monthChange() {
@@ -516,4 +530,14 @@ public class TimeSelector {
     public void setNextBtTip(String str) {
         tv_select.setText(str);
     }
+
+    public int setScrollUnit(SCROLLTYPE... scrolltypes) {
+        scrollUnits = 0;
+        for (SCROLLTYPE scrolltype : scrolltypes) {
+            scrollUnits ^= scrolltype.value;
+        }
+        return scrollUnits;
+    }
+
+
 }
