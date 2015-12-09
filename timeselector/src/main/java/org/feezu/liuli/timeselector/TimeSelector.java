@@ -319,7 +319,7 @@ public class TimeSelector {
 
 
             if (startTime.getTime().getTime() == endTime.getTime().getTime() || (startWorkTime.getTime().getTime() < startTime.getTime().getTime() && endWorkTime.getTime().getTime() < startTime.getTime().getTime())) {
-                Toast.makeText(context, "Exception", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Wrong parames!", Toast.LENGTH_LONG).show();
                 return false;
             }
             startCalendar.setTime(startCalendar.getTime().getTime() < workStartCalendar.getTime().getTime() ? workStartCalendar.getTime() : startCalendar.getTime());
