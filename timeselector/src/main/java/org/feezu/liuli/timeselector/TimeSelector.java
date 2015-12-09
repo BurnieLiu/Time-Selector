@@ -28,11 +28,9 @@ public class TimeSelector {
     }
 
     public enum SCROLLTYPE {
-        YEAR(1),
-        MONTH(2),
-        DAY(4),
-        HOUR(8),
-        MINUTE(16);
+
+        HOUR(1),
+        MINUTE(2);
 
         private SCROLLTYPE(int value) {
             this.value = value;
@@ -42,7 +40,7 @@ public class TimeSelector {
 
     }
 
-    private int scrollUnits = SCROLLTYPE.YEAR.value + SCROLLTYPE.MONTH.value + SCROLLTYPE.DAY.value + SCROLLTYPE.HOUR.value + SCROLLTYPE.MINUTE.value;
+    private int scrollUnits = SCROLLTYPE.HOUR.value + SCROLLTYPE.MINUTE.value;
     private ResultHandler handler;
     private Context context;
     private final String FORMAT_STR = "yyyy-MM-dd HH:mm";
@@ -73,12 +71,7 @@ public class TimeSelector {
     private TextView tv_cancle;
     private TextView tv_select;
 
-    /**
-     * @param context
-     * @param resultHandler 选取时间后回调
-     * @param startDate     format："yyyy-MM-dd HH:mm"
-     * @param endDate
-     */
+
     public TimeSelector(Context context, ResultHandler resultHandler, String startDate, String endDate) {
         this.context = context;
         this.handler = resultHandler;
@@ -90,13 +83,7 @@ public class TimeSelector {
         initView();
     }
 
-    /**
-     * @param context
-     * @param startDate
-     * @param endDate
-     * @param workStartTime 工作日起始时间 如：朝九晚五  format："09:00"
-     * @param workEndTime   工作日结束时间  format："17:00"
-     */
+
     public TimeSelector(Context context, ResultHandler resultHandler, String startDate, String endDate, String workStartTime, String workEndTime) {
         this(context, resultHandler, startDate, endDate);
         this.workStart_str = workStartTime;
@@ -105,7 +92,7 @@ public class TimeSelector {
 
     public void show() {
         if (startCalendar.getTime().getTime() >= endCalendar.getTime().getTime()) {
-            Toast.makeText(context, "起始时间应小于结束时间", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "start>end", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -190,12 +177,22 @@ public class TimeSelector {
             for (int i = startDay; i <= startCalendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
                 day.add(fomatTimeUnit(i));
             }
-            for (int i = startHour; i <= MAXHOUR; i++) {
-                hour.add(fomatTimeUnit(i));
+            if ((scrollUnits & SCROLLTYPE.HOUR.value) != SCROLLTYPE.HOUR.value) {
+                hour.add(fomatTimeUnit(startHour));
+            } else {
+                for (int i = startHour; i <= MAXHOUR; i++) {
+                    hour.add(fomatTimeUnit(i));
+                }
             }
-            for (int i = startMininute; i <= MAXMINUTE; i++) {
-                minute.add(fomatTimeUnit(i));
+
+            if ((scrollUnits & SCROLLTYPE.MINUTE.value) != SCROLLTYPE.MINUTE.value) {
+                minute.add(fomatTimeUnit(startMininute));
+            } else {
+                for (int i = startMininute; i <= MAXMINUTE; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
             }
+
         } else if (spanMon) {
             year.add(String.valueOf(startYear));
             for (int i = startMonth; i <= endMonth; i++) {
@@ -204,11 +201,20 @@ public class TimeSelector {
             for (int i = startDay; i <= startCalendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
                 day.add(fomatTimeUnit(i));
             }
-            for (int i = startHour; i <= MAXHOUR; i++) {
-                hour.add(fomatTimeUnit(i));
+            if ((scrollUnits & SCROLLTYPE.HOUR.value) != SCROLLTYPE.HOUR.value) {
+                hour.add(fomatTimeUnit(startHour));
+            } else {
+                for (int i = startHour; i <= MAXHOUR; i++) {
+                    hour.add(fomatTimeUnit(i));
+                }
             }
-            for (int i = startMininute; i <= MAXMINUTE; i++) {
-                minute.add(fomatTimeUnit(i));
+
+            if ((scrollUnits & SCROLLTYPE.MINUTE.value) != SCROLLTYPE.MINUTE.value) {
+                minute.add(fomatTimeUnit(startMininute));
+            } else {
+                for (int i = startMininute; i <= MAXMINUTE; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
             }
         } else if (spanDay) {
             year.add(String.valueOf(startYear));
@@ -216,31 +222,60 @@ public class TimeSelector {
             for (int i = startDay; i <= endDay; i++) {
                 day.add(fomatTimeUnit(i));
             }
-            for (int i = startHour; i <= MAXHOUR; i++) {
-                hour.add(fomatTimeUnit(i));
+            if ((scrollUnits & SCROLLTYPE.HOUR.value) != SCROLLTYPE.HOUR.value) {
+                hour.add(fomatTimeUnit(startHour));
+            } else {
+                for (int i = startHour; i <= MAXHOUR; i++) {
+                    hour.add(fomatTimeUnit(i));
+                }
             }
-            for (int i = startMininute; i <= MAXMINUTE; i++) {
-                minute.add(fomatTimeUnit(i));
+
+            if ((scrollUnits & SCROLLTYPE.MINUTE.value) != SCROLLTYPE.MINUTE.value) {
+                minute.add(fomatTimeUnit(startMininute));
+            } else {
+                for (int i = startMininute; i <= MAXMINUTE; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
             }
 
         } else if (spanHour) {
             year.add(String.valueOf(startYear));
             month.add(fomatTimeUnit(startMonth));
             day.add(fomatTimeUnit(startDay));
-            for (int i = startHour; i <= endHour; i++) {
-                hour.add(fomatTimeUnit(i));
+
+            if ((scrollUnits & SCROLLTYPE.HOUR.value) != SCROLLTYPE.HOUR.value) {
+                hour.add(fomatTimeUnit(startHour));
+            } else {
+                for (int i = startHour; i <= endHour; i++) {
+                    hour.add(fomatTimeUnit(i));
+                }
+
             }
-            for (int i = startMininute; i <= MAXMINUTE; i++) {
-                minute.add(fomatTimeUnit(i));
+
+            if ((scrollUnits & SCROLLTYPE.MINUTE.value) != SCROLLTYPE.MINUTE.value) {
+                minute.add(fomatTimeUnit(startMininute));
+            } else {
+                for (int i = startMininute; i <= MAXMINUTE; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
             }
+
+
+
 
         } else if (spanMin) {
             year.add(String.valueOf(startYear));
             month.add(fomatTimeUnit(startMonth));
             day.add(fomatTimeUnit(startDay));
             hour.add(fomatTimeUnit(startHour));
-            for (int i = startMininute; i <= endMininute; i++) {
-                minute.add(fomatTimeUnit(i));
+
+
+            if ((scrollUnits & SCROLLTYPE.MINUTE.value) != SCROLLTYPE.MINUTE.value) {
+                minute.add(fomatTimeUnit(startMininute));
+            } else {
+                for (int i = startMininute; i <= endMininute; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
             }
         }
 
@@ -284,7 +319,7 @@ public class TimeSelector {
 
 
             if (startTime.getTime().getTime() == endTime.getTime().getTime() || (startWorkTime.getTime().getTime() < startTime.getTime().getTime() && endWorkTime.getTime().getTime() < startTime.getTime().getTime())) {
-                Toast.makeText(context, "时间参数错误", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Exception", Toast.LENGTH_LONG).show();
                 return false;
             }
             startCalendar.setTime(startCalendar.getTime().getTime() < workStartCalendar.getTime().getTime() ? workStartCalendar.getTime() : startCalendar.getTime());
@@ -329,6 +364,7 @@ public class TimeSelector {
         month_pv.setOnSelectListener(new PickerView.onSelectListener() {
             @Override
             public void onSelect(String text) {
+                selectedCalender.set(Calendar.DAY_OF_MONTH, 1);
                 selectedCalender.set(Calendar.MONTH, Integer.parseInt(text) - 1);
                 dayChange();
 
@@ -378,14 +414,15 @@ public class TimeSelector {
     }
 
     private void excuteScroll() {
-        year_pv.setCanScroll(year.size() > 1 && (scrollUnits & SCROLLTYPE.YEAR.value) == SCROLLTYPE.YEAR.value);
-        month_pv.setCanScroll(month.size() > 1 && (scrollUnits & SCROLLTYPE.MONTH.value) == SCROLLTYPE.MONTH.value);
-        day_pv.setCanScroll(day.size() > 1 && (scrollUnits & SCROLLTYPE.DAY.value) == SCROLLTYPE.DAY.value);
+        year_pv.setCanScroll(year.size() > 1);
+        month_pv.setCanScroll(month.size() > 1);
+        day_pv.setCanScroll(day.size() > 1);
         hour_pv.setCanScroll(hour.size() > 1 && (scrollUnits & SCROLLTYPE.HOUR.value) == SCROLLTYPE.HOUR.value);
         minute_pv.setCanScroll(minute.size() > 1 && (scrollUnits & SCROLLTYPE.MINUTE.value) == SCROLLTYPE.MINUTE.value);
     }
 
     private void monthChange() {
+
         month.clear();
         int selectedYear = selectedCalender.get(Calendar.YEAR);
         if (selectedYear == startYear) {
@@ -405,6 +442,7 @@ public class TimeSelector {
         month_pv.setData(month);
         month_pv.setSelected(0);
         excuteAnimator(ANIMATORDELAY, month_pv);
+
         month_pv.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -415,6 +453,7 @@ public class TimeSelector {
     }
 
     private void dayChange() {
+
         day.clear();
         int selectedYear = selectedCalender.get(Calendar.YEAR);
         int selectedMonth = selectedCalender.get(Calendar.MONTH) + 1;
@@ -435,6 +474,7 @@ public class TimeSelector {
         day_pv.setData(day);
         day_pv.setSelected(0);
         excuteAnimator(ANIMATORDELAY, day_pv);
+
         day_pv.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -444,30 +484,32 @@ public class TimeSelector {
     }
 
     private void hourChange() {
-        hour.clear();
-        int selectedYear = selectedCalender.get(Calendar.YEAR);
-        int selectedMonth = selectedCalender.get(Calendar.MONTH) + 1;
-        int selectedDay = selectedCalender.get(Calendar.DAY_OF_MONTH);
+        if ((scrollUnits & SCROLLTYPE.HOUR.value) == SCROLLTYPE.HOUR.value) {
+            hour.clear();
+            int selectedYear = selectedCalender.get(Calendar.YEAR);
+            int selectedMonth = selectedCalender.get(Calendar.MONTH) + 1;
+            int selectedDay = selectedCalender.get(Calendar.DAY_OF_MONTH);
 
-        if (selectedYear == startYear && selectedMonth == startMonth && selectedDay == startDay) {
-            for (int i = startHour; i <= MAXHOUR; i++) {
-                hour.add(fomatTimeUnit(i));
-            }
-        } else if (selectedYear == endYear && selectedMonth == endMonth && selectedDay == endDay) {
-            for (int i = MINHOUR; i <= endHour; i++) {
-                hour.add(fomatTimeUnit(i));
-            }
-        } else {
+            if (selectedYear == startYear && selectedMonth == startMonth && selectedDay == startDay) {
+                for (int i = startHour; i <= MAXHOUR; i++) {
+                    hour.add(fomatTimeUnit(i));
+                }
+            } else if (selectedYear == endYear && selectedMonth == endMonth && selectedDay == endDay) {
+                for (int i = MINHOUR; i <= endHour; i++) {
+                    hour.add(fomatTimeUnit(i));
+                }
+            } else {
 
-            for (int i = MINHOUR; i <= MAXHOUR; i++) {
-                hour.add(fomatTimeUnit(i));
-            }
+                for (int i = MINHOUR; i <= MAXHOUR; i++) {
+                    hour.add(fomatTimeUnit(i));
+                }
 
+            }
+            selectedCalender.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour.get(0)));
+            hour_pv.setData(hour);
+            hour_pv.setSelected(0);
+            excuteAnimator(ANIMATORDELAY, hour_pv);
         }
-        selectedCalender.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour.get(0)));
-        hour_pv.setData(hour);
-        hour_pv.setSelected(0);
-        excuteAnimator(ANIMATORDELAY, hour_pv);
         hour_pv.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -478,37 +520,40 @@ public class TimeSelector {
     }
 
     private void minuteChange() {
-        minute.clear();
-        int selectedYear = selectedCalender.get(Calendar.YEAR);
-        int selectedMonth = selectedCalender.get(Calendar.MONTH) + 1;
-        int selectedDay = selectedCalender.get(Calendar.DAY_OF_MONTH);
-        int selectedHour = selectedCalender.get(Calendar.HOUR_OF_DAY);
+        if ((scrollUnits & SCROLLTYPE.MINUTE.value) == SCROLLTYPE.MINUTE.value) {
+            minute.clear();
+            int selectedYear = selectedCalender.get(Calendar.YEAR);
+            int selectedMonth = selectedCalender.get(Calendar.MONTH) + 1;
+            int selectedDay = selectedCalender.get(Calendar.DAY_OF_MONTH);
+            int selectedHour = selectedCalender.get(Calendar.HOUR_OF_DAY);
 
-        if (selectedYear == startYear && selectedMonth == startMonth && selectedDay == startDay && selectedHour == startHour) {
-            for (int i = startMininute; i <= MAXMINUTE; i++) {
-                minute.add(fomatTimeUnit(i));
+            if (selectedYear == startYear && selectedMonth == startMonth && selectedDay == startDay && selectedHour == startHour) {
+                for (int i = startMininute; i <= MAXMINUTE; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
+            } else if (selectedYear == endYear && selectedMonth == endMonth && selectedDay == endDay && selectedHour == endHour) {
+                for (int i = MINMINUTE; i <= endMininute; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
+            } else if (selectedHour == hour_workStart) {
+                for (int i = minute_workStart; i <= MAXMINUTE; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
+            } else if (selectedHour == hour_workEnd) {
+                for (int i = MINMINUTE; i <= minute_workEnd; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
+            } else {
+                for (int i = MINMINUTE; i <= MAXMINUTE; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
             }
-        } else if (selectedYear == endYear && selectedMonth == endMonth && selectedDay == endDay && selectedHour == endHour) {
-            for (int i = MINMINUTE; i <= endMininute; i++) {
-                minute.add(fomatTimeUnit(i));
-            }
-        } else if (selectedHour == hour_workStart) {
-            for (int i = minute_workStart; i <= MAXMINUTE; i++) {
-                minute.add(fomatTimeUnit(i));
-            }
-        } else if (selectedHour == hour_workEnd) {
-            for (int i = MINMINUTE; i <= minute_workEnd; i++) {
-                minute.add(fomatTimeUnit(i));
-            }
-        } else {
-            for (int i = MINMINUTE; i <= MAXMINUTE; i++) {
-                minute.add(fomatTimeUnit(i));
-            }
+            selectedCalender.set(Calendar.MINUTE, Integer.parseInt(minute.get(0)));
+            minute_pv.setData(minute);
+            minute_pv.setSelected(0);
+            excuteAnimator(ANIMATORDELAY, minute_pv);
+
         }
-        selectedCalender.set(Calendar.MINUTE, Integer.parseInt(minute.get(0)));
-        minute_pv.setData(minute);
-        minute_pv.setSelected(0);
-        excuteAnimator(ANIMATORDELAY, minute_pv);
         excuteScroll();
 
 
@@ -524,15 +569,13 @@ public class TimeSelector {
         ObjectAnimator.ofPropertyValuesHolder(view, pvhX, pvhY, pvhZ).setDuration(ANIMATORDELAY).start();
     }
 
-    /**
-     * 设置选取时间文本 默认"选择"
-     */
+
     public void setNextBtTip(String str) {
         tv_select.setText(str);
     }
 
-    public int setScrollUnit(SCROLLTYPE... scrolltypes) {
-        scrollUnits = 0;
+    public int disScrollUnit(SCROLLTYPE... scrolltypes) {
+
         for (SCROLLTYPE scrolltype : scrolltypes) {
             scrollUnits ^= scrolltype.value;
         }

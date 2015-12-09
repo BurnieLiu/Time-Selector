@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
             public void handle(String time) {
                 Toast.makeText(getApplicationContext(), time, Toast.LENGTH_LONG).show();
             }
-        }, "2015-10-27 09:33", "2016-11-29 21:54");
+        }, "2017-01-30 00:00", "2018-12-31 00:00");
 
-        timeSelector.setScrollUnit(TimeSelector.SCROLLTYPE.HOUR, TimeSelector.SCROLLTYPE.MINUTE);
+       // timeSelector.disScrollUnit(TimeSelector.SCROLLTYPE.HOUR, TimeSelector.SCROLLTYPE.MINUTE);
     }
 
     public void show(View v) {
