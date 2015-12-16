@@ -42,6 +42,15 @@
 ><pre><code>timeSelector.show();</code></pre>
 
 
+1.1.0更新加入：
+>限制拨动 时和分
+在show前调用：     
+><pre><code>timeSelector.disScrollUnit(TimeSelector.SCROLLTYPE.HOUR, TimeSelector.SCROLLTYPE.MINUTE);</code></pre>
+>设置显示模式： 年月日时分（默认）|年月日
+在show前调用：
+><pre><code>timeSelector.setMode(TimeSelector.MODE.YMDHM);//显示 年月日时分（默认）；
+timeSelector.setMode(TimeSelector.MODE.YMD);//只显示 年月日
+</code></pre>
 
  
 
