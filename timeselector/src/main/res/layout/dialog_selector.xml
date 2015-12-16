@@ -27,7 +27,7 @@
 
 
             <TextView
-                android:id="@+id/tv_year"
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -115,6 +115,7 @@
                     android:textColor="#333333"
                     android:textSize="18sp" />
 
+
                 <org.feezu.liuli.timeselector.view.PickerView
                     android:id="@+id/hour_pv"
                     android:layout_width="0dp"
@@ -122,6 +123,7 @@
                     android:layout_weight="2" />
 
                 <TextView
+                    android:id="@+id/hour_text"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -137,6 +139,7 @@
                     android:layout_weight="2" />
 
                 <TextView
+                    android:id="@+id/minute_text"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

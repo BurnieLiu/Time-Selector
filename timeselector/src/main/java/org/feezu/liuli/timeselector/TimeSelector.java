@@ -23,6 +23,7 @@ import java.util.Calendar;
  * Created by liuli on 2015/11/27.
  */
 public class TimeSelector {
+
     public interface ResultHandler {
         void handle(String time);
     }
@@ -39,6 +40,20 @@ public class TimeSelector {
         public int value;
 
     }
+
+    public enum MODE {
+
+        YMD(1),
+        YMDHM(2);
+
+        private MODE(int value) {
+            this.value = value;
+        }
+
+        public int value;
+
+    }
+
 
     private int scrollUnits = SCROLLTYPE.HOUR.value + SCROLLTYPE.MINUTE.value;
     private ResultHandler handler;
@@ -69,7 +84,9 @@ public class TimeSelector {
     private Calendar startCalendar;
     private Calendar endCalendar;
     private TextView tv_cancle;
-    private TextView tv_select;
+    private TextView tv_select,tv_title;
+    private TextView hour_text;
+    private TextView minute_text;
 
 
     public TimeSelector(Context context, ResultHandler resultHandler, String startDate, String endDate) {
@@ -128,6 +145,9 @@ public class TimeSelector {
         minute_pv = (PickerView) seletorDialog.findViewById(R.id.minute_pv);
         tv_cancle = (TextView) seletorDialog.findViewById(R.id.tv_cancle);
         tv_select = (TextView) seletorDialog.findViewById(R.id.tv_select);
+        tv_title = (TextView) seletorDialog.findViewById(R.id.tv_title);
+        hour_text = (TextView) seletorDialog.findViewById(R.id.hour_text);
+        minute_text = (TextView) seletorDialog.findViewById(R.id.minute_text);
 
         tv_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -259,8 +279,6 @@ public class TimeSelector {
                     minute.add(fomatTimeUnit(i));
                 }
             }
-
-
 
 
         } else if (spanMin) {
@@ -573,14 +591,37 @@ public class TimeSelector {
     public void setNextBtTip(String str) {
         tv_select.setText(str);
     }
+    public void setTitle(String str) {
+        tv_title.setText(str);
+    }
 
     public int disScrollUnit(SCROLLTYPE... scrolltypes) {
-
+        if (scrolltypes == null || scrolltypes.length == 0)
+            scrollUnits = SCROLLTYPE.HOUR.value + SCROLLTYPE.MINUTE.value;
         for (SCROLLTYPE scrolltype : scrolltypes) {
             scrollUnits ^= scrolltype.value;
         }
         return scrollUnits;
     }
 
+    public void setMode(MODE mode) {
+        switch (mode.value) {
+            case 1:
+                disScrollUnit(SCROLLTYPE.HOUR, SCROLLTYPE.MINUTE);
+                hour_pv.setVisibility(View.GONE);
+                minute_pv.setVisibility(View.GONE);
+                hour_text.setVisibility(View.GONE);
+                minute_text.setVisibility(View.GONE);
+                break;
+            case 2:
+                disScrollUnit();
+                hour_pv.setVisibility(View.VISIBLE);
+                minute_pv.setVisibility(View.VISIBLE);
+                hour_text.setVisibility(View.VISIBLE);
+                minute_text.setVisibility(View.VISIBLE);
+                break;
+
+        }
+    }
 
 }
