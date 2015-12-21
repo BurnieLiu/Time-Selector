@@ -84,7 +84,7 @@ public class TimeSelector {
     private Calendar startCalendar;
     private Calendar endCalendar;
     private TextView tv_cancle;
-    private TextView tv_select,tv_title;
+    private TextView tv_select, tv_title;
     private TextView hour_text;
     private TextView minute_text;
 
@@ -591,6 +591,7 @@ public class TimeSelector {
     public void setNextBtTip(String str) {
         tv_select.setText(str);
     }
+
     public void setTitle(String str) {
         tv_title.setText(str);
     }
@@ -624,4 +625,11 @@ public class TimeSelector {
         }
     }
 
+    public void setIsLoop(boolean isLoop) {
+        this.year_pv.setIsLoop(isLoop);
+        this.month_pv.setIsLoop(isLoop);
+        this.day_pv.setIsLoop(isLoop);
+        this.hour_pv.setIsLoop(isLoop);
+        this.minute_pv.setIsLoop(isLoop);
+    }
 }

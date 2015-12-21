@@ -1,6 +1,7 @@
 package org.feezu.liuli.timeselector.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
@@ -21,10 +22,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-
 public class PickerView extends View {
+    /**
+     * 新增字段 控制是否首尾相接循环显示 默认为循环显示
+     */
+    private boolean loop = true;
 
-    public static final String TAG = "PickerView";
+
     /**
      * text之间间距和minTextSize之比
      */
@@ -32,7 +36,7 @@ public class PickerView extends View {
     /**
      * 自动回滚到中间的速度
      */
-    public static final float SPEED = 2;
+    public static final float SPEED = 10;
 
     private List<String> mDataList;
     /**
@@ -90,6 +94,8 @@ public class PickerView extends View {
 
     public PickerView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.PickerView);
+        loop = typedArray.getBoolean(R.styleable.PickerView_isLoop, loop);
         init();
     }
 
@@ -115,17 +121,19 @@ public class PickerView extends View {
      */
     public void setSelected(int selected) {
         mCurrentSelected = selected;
-        int distance = mDataList.size() / 2 - mCurrentSelected;
-        if (distance < 0)
-            for (int i = 0; i < -distance; i++) {
-                moveHeadToTail();
-                mCurrentSelected--;
-            }
-        else if (distance > 0)
-            for (int i = 0; i < distance; i++) {
-                moveTailToHead();
-                mCurrentSelected++;
-            }
+        if (loop) {
+            int distance = mDataList.size() / 2 - mCurrentSelected;
+            if (distance < 0)
+                for (int i = 0; i < -distance; i++) {
+                    moveHeadToTail();
+                    mCurrentSelected--;
+                }
+            else if (distance > 0)
+                for (int i = 0; i < distance; i++) {
+                    moveTailToHead();
+                    mCurrentSelected++;
+                }
+        }
         invalidate();
     }
 
@@ -144,15 +152,20 @@ public class PickerView extends View {
 
 
     private void moveHeadToTail() {
-        String head = mDataList.get(0);
-        mDataList.remove(0);
-        mDataList.add(head);
+        if (loop) {
+            String head = mDataList.get(0);
+            mDataList.remove(0);
+            mDataList.add(head);
+        }
     }
 
     private void moveTailToHead() {
-        String tail = mDataList.get(mDataList.size() - 1);
-        mDataList.remove(mDataList.size() - 1);
-        mDataList.add(0, tail);
+        if (loop) {
+            String tail = mDataList.get(mDataList.size() - 1);
+            mDataList.remove(mDataList.size() - 1);
+            mDataList.add(0, tail);
+        }
+
     }
 
     @Override
@@ -252,7 +265,32 @@ public class PickerView extends View {
                 doDown(event);
                 break;
             case MotionEvent.ACTION_MOVE:
-                doMove(event);
+                mMoveLen += (event.getY() - mLastDownY);
+
+                if (mMoveLen > MARGIN_ALPHA * mMinTextSize / 2) {
+                    if (!loop && mCurrentSelected == 0) {
+                        mLastDownY = event.getY();
+                        invalidate();
+                        return true;
+                    }
+                    if (!loop) mCurrentSelected--;
+                    // 往下滑超过离开距离
+                    moveTailToHead();
+                    mMoveLen = mMoveLen - MARGIN_ALPHA * mMinTextSize;
+                } else if (mMoveLen < -MARGIN_ALPHA * mMinTextSize / 2) {
+                    if (mCurrentSelected == mDataList.size() - 1) {
+                        mLastDownY = event.getY();
+                        invalidate();
+                        return true;
+                    }
+                    if (!loop) mCurrentSelected++;
+                    // 往上滑超过离开距离
+                    moveHeadToTail();
+                    mMoveLen = mMoveLen + MARGIN_ALPHA * mMinTextSize;
+                }
+
+                mLastDownY = event.getY();
+                invalidate();
                 break;
             case MotionEvent.ACTION_UP:
                 doUp(event);
@@ -269,23 +307,23 @@ public class PickerView extends View {
         mLastDownY = event.getY();
     }
 
-    private void doMove(MotionEvent event) {
-
-        mMoveLen += (event.getY() - mLastDownY);
-
-        if (mMoveLen > MARGIN_ALPHA * mMinTextSize / 2) {
-            // 往下滑超过离开距离
-            moveTailToHead();
-            mMoveLen = mMoveLen - MARGIN_ALPHA * mMinTextSize;
-        } else if (mMoveLen < -MARGIN_ALPHA * mMinTextSize / 2) {
-            // 往上滑超过离开距离
-            moveHeadToTail();
-            mMoveLen = mMoveLen + MARGIN_ALPHA * mMinTextSize;
-        }
-
-        mLastDownY = event.getY();
-        invalidate();
-    }
+//    private void doMove(MotionEvent event) {
+//
+//        mMoveLen += (event.getY() - mLastDownY);
+//
+//        if (mMoveLen > MARGIN_ALPHA * mMinTextSize / 2) {
+//            // 往下滑超过离开距离
+//            moveTailToHead();
+//            mMoveLen = mMoveLen - MARGIN_ALPHA * mMinTextSize;
+//        } else if (mMoveLen < -MARGIN_ALPHA * mMinTextSize / 2) {
+//            // 往上滑超过离开距离
+//            moveHeadToTail();
+//            mMoveLen = mMoveLen + MARGIN_ALPHA * mMinTextSize;
+//        }
+//
+//        mLastDownY = event.getY();
+//        invalidate();
+//    }
 
     private void doUp(MotionEvent event) {
         // 抬起手后mCurrentSelected的位置由当前位置move到中间选中位置
@@ -329,5 +367,15 @@ public class PickerView extends View {
             return super.dispatchTouchEvent(event);
         else
             return false;
+    }
+
+    /**
+     * 新增字段 控制内容是否首尾相连
+     * by liuli
+     *
+     * @param isLoop
+     */
+    public void setIsLoop(boolean isLoop) {
+        loop = isLoop;
     }
 }

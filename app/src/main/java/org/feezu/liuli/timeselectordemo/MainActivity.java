@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, "1989-01-30 00:00", "2018-12-31 00:00");
 
-        timeSelector.setMode(TimeSelector.MODE.YMD);
+//        timeSelector.setIsLoop(false);
     }
 
     public void show(View v) {

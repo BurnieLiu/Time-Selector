@@ -2,11 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/android_project/Time-Selector/app/build/intermediates/exploded-aar/com.feezu.liuli/timeselector/1.0.9/jars/classes.jar"
+        jar="/android_project/Time-Selector/app/build/intermediates/exploded-aar/com.feezu.liuli/timeselector/1.1.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="c538f46da2c647eec69f69366703b9c5283e7a11">
-        <dex dex="/android_project/Time-Selector/app/build/intermediates/pre-dexed/debug/classes-f88c0cf1dd224b8605a350d01c2a32b7c590c7b8.jar" />
+        sha1="482e5632d8e3d2939fef5ebdc7b362a7a37ab6b1">
+        <dex dex="/android_project/Time-Selector/app/build/intermediates/pre-dexed/debug/classes-a7361b9f9b8c23f094b093a6ed4442f3198e8494.jar" />
     </item>
 
 </items>
