@@ -66,7 +66,7 @@ timeSelector.setMode(TimeSelector.MODE.YMD);//只显示 年月日
 >TimeSelector时间控件整体设置是否循环显示内容
 在show()前调用：
         
->        timeSelector.setIsLoop(false);//不设置时为true，即循环显示
+>        timeSelector.setIsLoop(false);//不设置时为true，即循环显示 
 
 
 
