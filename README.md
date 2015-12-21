@@ -56,7 +56,7 @@ timeSelector.setMode(TimeSelector.MODE.YMD);//只显示 年月日
 >更新基础控件PickView,设置是否循环显示内容
 可调用PickView实例的<code>setIsLoop(boolean isLoop)</code>方法，也可以在布局中如下使用
 
-		<org.feezu.liuli.timeselector.view.PickerView
+>		<org.feezu.liuli.timeselector.view.PickerView
                     android:id="@+id/month_pv"
                     android:layout_width="0dp"
                     android:layout_height="160dp"
@@ -66,7 +66,7 @@ timeSelector.setMode(TimeSelector.MODE.YMD);//只显示 年月日
 >TimeSelector时间控件整体设置是否循环显示内容
 在show()前调用：
         
-        timeSelector.setIsLoop(false);//不设置时为true，即循环显示
+>        timeSelector.setIsLoop(false);//不设置时为true，即循环显示
 
 
 
